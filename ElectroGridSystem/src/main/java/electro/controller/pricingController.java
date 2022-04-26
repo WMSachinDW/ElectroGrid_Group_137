@@ -6,8 +6,8 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.*;
 import org.json.simple.*;
 
+import electro.classes.*;
 import electro.model.*;
-import electro.service.*;
 
 import org.apache.tomcat.util.json.JSONParser;
 import org.jsoup.*;
@@ -34,19 +34,29 @@ public class pricingController {
 		
 		//Convert the input string to a JSON object
 		JsonObject app = new JsonParser().parse(app_text).getAsJsonObject();
+
+		if(app.get("start").getAsString()!=""&&app.get("end").getAsString()!=""&&app.get("total").getAsString()!="") {
 		
-		Pricing pricing = new Pricing();
-		pricing.setStart_unit(Integer.parseInt(app.get("start").getAsString()));
-		pricing.setEnd_unit(Integer.parseInt(app.get("end").getAsString()));
-		pricing.setPrice(Double.parseDouble(app.get("total").getAsString()));
-		
-		pricing_Service.addPricing(pricing);
-		
-		JSONObject json = new JSONObject();
-		json.put("success", pricing_Service.getSuccess());
-		
-		return json.toString();
+			Pricing pricing = new Pricing();
+			pricing.setStart_unit(Integer.parseInt(app.get("start").getAsString()));
+			pricing.setEnd_unit(Integer.parseInt(app.get("end").getAsString()));
+			pricing.setPrice(Double.parseDouble(app.get("total").getAsString()));
 			
+			pricing_Service.addPricing(pricing);
+			
+			JSONObject json = new JSONObject();
+			json.put("success", pricing_Service.getSuccess());
+			
+			return json.toString();
+
+		}else {
+			
+			JSONObject json = new JSONObject();
+			json.put("success", "Required Error");
+			
+			return json.toString();
+			
+		}		
 		
 	}
 	
@@ -59,19 +69,29 @@ public class pricingController {
 		//Convert the input string to a JSON object
 		JsonObject app = new JsonParser().parse(app_text).getAsJsonObject();
 
-		Pricing pricing = new Pricing();
-		pricing.setId(Integer.parseInt(app.get("id").getAsString()));
-		pricing.setStart_unit(Integer.parseInt(app.get("start").getAsString()));
-		pricing.setEnd_unit(Integer.parseInt(app.get("end").getAsString()));
-		pricing.setPrice(Double.parseDouble(app.get("total").getAsString()));
-		
-		pricing_Service.editPricing(pricing);
-		
-		JSONObject json = new JSONObject();
-		json.put("success", pricing_Service.getSuccess());
-		
-		return json.toString();
+		if(app.get("id").getAsString()!=""&&app.get("start").getAsString()!=""&&app.get("end").getAsString()!=""&&app.get("total").getAsString()!="") {
 			
+			Pricing pricing = new Pricing();
+			pricing.setId(Integer.parseInt(app.get("id").getAsString()));
+			pricing.setStart_unit(Integer.parseInt(app.get("start").getAsString()));
+			pricing.setEnd_unit(Integer.parseInt(app.get("end").getAsString()));
+			pricing.setPrice(Double.parseDouble(app.get("total").getAsString()));
+			
+			pricing_Service.editPricing(pricing);
+			
+			JSONObject json = new JSONObject();
+			json.put("success", pricing_Service.getSuccess());
+			
+			return json.toString();
+
+		}else {
+			
+			JSONObject json = new JSONObject();
+			json.put("success", "Required Error");
+			
+			return json.toString();
+			
+		}		
 	}
 	
 	@DELETE
@@ -82,14 +102,24 @@ public class pricingController {
 		
 		//Convert the input string to a JSON object
 		JsonObject app = new JsonParser().parse(app_text).getAsJsonObject();
-		
-		pricing_Service.deletePricing(Integer.parseInt(app.get("id").getAsString()));
-		
-		JSONObject json = new JSONObject();
-		json.put("success", pricing_Service.getSuccess());
-		
-		return json.toString();
+
+		if(app.get("id").getAsString()!="") {
 			
+			pricing_Service.deletePricing(Integer.parseInt(app.get("id").getAsString()));
+			
+			JSONObject json = new JSONObject();
+			json.put("success", pricing_Service.getSuccess());
+			
+			return json.toString();
+
+		}else {
+			
+			JSONObject json = new JSONObject();
+			json.put("success", "Required Error");
+			
+			return json.toString();
+			
+		}	
 		
 	}
 	
