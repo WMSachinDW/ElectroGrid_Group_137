@@ -16,60 +16,35 @@
 <br>
 <p></p>
 
-	                    <div>Add New Payment</div>
-	                        <form id="userRegister">
+	                    <div>Add New Payment</div></br>
+	                        <form id="addPayment">
 	                            <div>
-	                                <label>Name</label>
+	                                <label>User ID</label>
 	                                <div>
-	                                    <input type="text" id="name" class="form-control" name="name">
+	                                    <input type="text" id="user_id" class="form-control" name="user_id">
 	                                </div>
-	                            </div>
+	                            </div></br>
 	                            
 	                            <div>
-	                                <label>Email</label>
+	                                <label>NIC No</label>
 	                                <div>
-	                                    <input type="email" id="email" class="form-control" name="email">
+	                                    <input type="text" id="card" class="form-control" name="card">
 	                                </div>
-	                            </div>
+	                            </div></br>
 	                            
 	                            <div>
-	                                <label>Nic</label>
+	                                <label>Payment Date</label>
 	                                <div>
-	                                    <input type="text" id="nic" class="form-control" name="nic">
+	                                    <input type="date" id="date" class="form-control" name="date">
 	                                </div>
-	                            </div>
+	                            </div></br>
 	                            
 	                            <div>
-	                                <label>Phone</label>
+	                                <label>Total Amount</label>
 	                                <div>
-	                                    <input type="number" id="phone" class="form-control" name="phone">
+	                                    <input type="number" id="total" class="form-control" name="total">
 	                                </div>
-	                            </div>
-	                            
-	                            <div>
-	                                <label>Address</label>
-	                                <div>
-	                                    <input type="text" id="address" class="form-control" name="address">
-	                                </div>
-	                            </div>
-	                            
-	                            <div>
-	                                <label>Password</label>
-	                                <div>
-	                                    <input type="password" id="password" class="form-control" name="password">
-	                                </div>
-	                            </div>
-	                            
-	                            <div>
-	                                <label>Privilege</label>
-	                                <div>
-	                                    <select name="privilege" class="form-control" id="privilege">
-	                                		<option value="">Select</option>
-	                                		<option value="1">Admin</option>
-	                                		<option value="0">User</option>
-	                                	</select>
-	                                </div>
-	                            </div>
+	                            </div></br>
 	                            
 	                            <div>
 	                                <button type="submit" class="btn btn-success">
@@ -88,47 +63,31 @@
 
 $(document).ready(function () {
 
-    $("#userRegister").validate({
+    $("#addPayment").validate({
         rules: {
-        	name: "required",
-        	email: {
-                email: true,
-                required: true
-            },
-        	nic: "required",
-        	phone: "required",
-        	address: "required",
-        	password: "required",
-        	privilege: "required"
+        	user_id: "required",
+        	card: "required",
+        	date: "required",
+        	total: "required"
         },
         messages: {
-        	name: "N Required!",
-        	email: {
-                email: "format",
-                required: "required"
-            },
-            nic: "n Required!",
-            phone: "p Required!",
-            address: "a Required!",
-            password: "p Required!",
-            privilege: "p Required!"
+        	user_id: "N Required!",
+        	card: "n Required!",
+        	date: "p Required!",
+        	total: "a Required!"
         },
         submitHandler: function () {
         	var fromData = JSON.stringify({
-                "name" : $('#name').val(),
-                "email" : $('#email').val(),
-                "nic" : $('#nic').val(),
-                "phone" : $('#phone').val(),
-                "address" : $('#address').val(),
-                "pass" : $('#password').val(),
-                "privilege" : $('#privilege').val()
+                "user_id" : $('#user_id').val(),
+                "card" : $('#card').val(),
+                "date" : $('#date').val(),
+                "total" : $('#total').val()
             });
         	
         	console.log(fromData);
-
             $.ajax({
                 type: "POST",
-                url: 'app/user',
+                url: 'app/payment',
                 dataType : 'json',
 				contentType : 'application/json',
 				data: fromData,
@@ -136,7 +95,7 @@ $(document).ready(function () {
                 	console.log(data);
                 	if(data['success']=="success"){
                 		alert("Added Successfull!");
-                        $("#userRegister")[0].reset();
+                        $("#addPayment")[0].reset();
 					}else{
 						alert("Unsuccessfull!");
 					}
@@ -148,7 +107,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#userRegister").submit(function(e) {
+    $("#addPayment").submit(function(e) {
         e.preventDefault();
     });
 
