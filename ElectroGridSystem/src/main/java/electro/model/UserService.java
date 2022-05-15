@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 
+import org.json.simple.JSONObject;
+
 import electro.classes.*;
 import electro.db.DatabaseConnection;
 
@@ -41,9 +43,10 @@ public class UserService {
 			preparedStatement.execute();
 			preparedStatement.close();
 			connection.close();
+			setSuccess("success");
 
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println(e.getMessage());
+			setSuccess("unsuccess");
 		}
 	}
 	
@@ -94,8 +97,7 @@ public class UserService {
 			connection.close();
 			
 		}catch (ClassNotFoundException | SQLException  e) {
-
-			System.out.println(e.getMessage());
+			setSuccess("unsuccess");
 		}
 		
 		return table+"</table>";
@@ -121,10 +123,11 @@ public class UserService {
 				preparedStatement.execute();
 				preparedStatement.close();
 				connection.close();
+				setSuccess("success");
 				
 		
 		}catch (ClassNotFoundException | SQLException  e) {
-			System.out.println(e.getMessage());
+			setSuccess("unsuccess");
 		}
 	}
 
@@ -139,9 +142,39 @@ public class UserService {
 			preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id=?");
 			preparedStatement.setInt(1, user);
 			preparedStatement.execute();
+			setSuccess("success");
 		
 		}catch (ClassNotFoundException | SQLException  e) {
-			System.out.println(e.getMessage());
+			setSuccess("unsuccess");
 		}
+	}
+	
+	public JSONObject getOneUser(int id) {
+		Connection connection;
+		PreparedStatement preparedStatement;
+		JSONObject json = new JSONObject();
+		
+		try {
+			connection = DatabaseConnection.getDBConnection();
+			
+			preparedStatement = connection.prepareStatement("SELECT * FROM users where id=?");
+			preparedStatement.setInt(1, id);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while(rs.next())
+			{
+				json.put("id", rs.getInt(1));
+				json.put("name", rs.getString(2));
+				json.put("email", rs.getString(3));
+				json.put("nic", rs.getString(4));
+				json.put("phone", rs.getString(5));
+				json.put("address", rs.getString(6));
+				json.put("privilege", rs.getString(8));
+			}
+			
+		}catch (ClassNotFoundException | SQLException  e) {
+			setSuccess("unsuccess");
+		}
+		return json;
 	}
 }

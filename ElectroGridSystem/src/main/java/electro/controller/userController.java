@@ -129,5 +129,14 @@ public class userController {
 			
 		}		
 	}
-	
+
+	@POST
+	@Path("/get")
+	@Produces(MediaType.TEXT_HTML)
+	public String viewOne(String app_text)
+	{
+		JsonObject app = new JsonParser().parse(app_text).getAsJsonObject();
+		
+		return user_Service.getOneUser(Integer.parseInt(app.get("id").getAsString())).toString();
+	}
 }
