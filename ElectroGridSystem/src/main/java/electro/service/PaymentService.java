@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import electro.db.DatabaseConnection;
 import electro.model.*;
 
@@ -37,9 +40,11 @@ public class PaymentService {
 			preparedStatement.execute();
 			preparedStatement.close();
 			connection.close();
-
+			this.setSuccess("success");
+			
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println(e.getMessage());
+			this.setSuccess("unsuccess");
 		}
 	}
 	
@@ -110,10 +115,12 @@ public class PaymentService {
 				preparedStatement.execute();
 				preparedStatement.close();
 				connection.close();
+				this.setSuccess("success");
 				
 		
 		}catch (ClassNotFoundException | SQLException  e) {
 			System.out.println(e.getMessage());
+			this.setSuccess("success");
 		}
 	}
 
@@ -128,9 +135,37 @@ public class PaymentService {
 			preparedStatement = connection.prepareStatement("DELETE FROM payment WHERE id=?");
 			preparedStatement.setInt(1, id);
 			preparedStatement.execute();
+			this.setSuccess("success");
 		
 		}catch (ClassNotFoundException | SQLException  e) {
 			System.out.println(e.getMessage());
+			this.setSuccess("success");
 		}
+	}
+	
+	public JSONObject getOnePayment(int id) throws JSONException {
+		Connection connection;
+		PreparedStatement preparedStatement;
+		JSONObject json = new JSONObject();
+		
+		try {
+			connection = DatabaseConnection.getDBConnection();
+			
+			preparedStatement = connection.prepareStatement("SELECT * FROM payment where id=?");
+			preparedStatement.setInt(1, id);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while(rs.next())
+			{
+				json.put("user_id", rs.getInt(1));
+				json.put("card", rs.getString(2));
+				json.put("date", rs.getString(3));
+				json.put("total", rs.getDouble(4));
+			}
+			
+		}catch (ClassNotFoundException | SQLException  e) {
+			setSuccess("unsuccess");
+		}
+		return json;
 	}
 }

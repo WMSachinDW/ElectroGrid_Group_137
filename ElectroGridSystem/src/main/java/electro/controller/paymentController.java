@@ -2,13 +2,12 @@ package electro.controller;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
 import com.google.gson.*;
-import org.json.simple.*;
 
+import org.json.JSONException;
+import org.json.simple.*;
 import electro.model.*;
 import electro.service.*;
-
 import org.apache.tomcat.util.json.JSONParser;
 import org.jsoup.*;
 import org.jsoup.parser.*;
@@ -47,14 +46,12 @@ public class paymentController {
 			
 			JSONObject json = new JSONObject();
 			json.put("success", paymentService.getSuccess());
-			
 			return json.toString();
 
 		}else {
 			
 			JSONObject json = new JSONObject();
 			json.put("success", "Required Error");
-			
 			return json.toString();
 			
 		}
@@ -83,14 +80,12 @@ public class paymentController {
 			
 			JSONObject json = new JSONObject();
 			json.put("success", paymentService.getSuccess());
-			
 			return json.toString();
 
 		}else {
 			
 			JSONObject json = new JSONObject();
 			json.put("success", "Required Error");
-			
 			return json.toString();
 			
 		}
@@ -111,18 +106,22 @@ public class paymentController {
 			
 			JSONObject json = new JSONObject();
 			json.put("success", paymentService.getSuccess());
-			
 			return json.toString();
 
 		}else {
 			
 			JSONObject json = new JSONObject();
 			json.put("success", "Required Error");
-			
 			return json.toString();
-			
 		}
-		
 	}
 	
+	@POST
+	@Path("/get")
+	@Produces(MediaType.TEXT_HTML)
+	public String viewOne(String app_text) throws NumberFormatException, JSONException{
+		JsonObject app = new JsonParser().parse(app_text).getAsJsonObject();
+		PaymentService paymentService =new PaymentService();
+		return paymentService.getOnePayment(Integer.parseInt(app.get("id").getAsString())).toString();
+	}	
 }

@@ -35,7 +35,7 @@
 	                            </div></br>
           
 	                            <div>
-	                                <label>NIC No</label>
+	                                <label>Card No</label>
 	                                <div>
 	                                    <input type="text" id="card" class="form-control" name="card">
 	                                </div>
@@ -104,7 +104,7 @@
             },
             messages: {
             	user_id: "User ID Required!",
-            	card: "NIC Required!",
+            	card: "Card No Required!",
             	date: "Date Required!",
             	total: "Total Amount Required!"
             },
@@ -172,17 +172,15 @@
 			contentType : 'application/json',
             success: function(data){
             	console.log(data),
-                $('#edit_id').val(data['edit_id']),
-                "card" : $('#card_number').val(),
-                "date" : $('#date').val(),
-                "total" : $('#total').val()
+                $('#edit_id').val(data['user_id']),
+                $('#card_number').val(data['card']),
+                $('#date').val(data['date']),
+                $('#total').val(data['total'])
             },
             failure: function(errMsg) {
                 alert('Error');
             }
-        });
-
-        
+        }); 
     }
     
     
