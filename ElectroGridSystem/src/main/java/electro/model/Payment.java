@@ -1,5 +1,12 @@
 package electro.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;    
+import org.json.JSONObject;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import electro.db.DatabaseConnection;
+
 public class Payment {
 
 	int id,user_id;
@@ -36,5 +43,4 @@ public class Payment {
 	public void setTotal(double total) {
 		this.total = total;
 	}
-	
 }

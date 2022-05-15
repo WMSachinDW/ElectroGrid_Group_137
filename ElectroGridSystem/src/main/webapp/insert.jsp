@@ -26,7 +26,7 @@
 	                            </div></br>
 	                            
 	                            <div>
-	                                <label>NIC No</label>
+	                                <label>Card No</label>
 	                                <div>
 	                                    <input type="text" id="card" class="form-control" name="card">
 	                                </div>
@@ -71,10 +71,10 @@ $(document).ready(function () {
         	total: "required"
         },
         messages: {
-        	user_id: "N Required!",
-        	card: "n Required!",
-        	date: "p Required!",
-        	total: "a Required!"
+        	user_id: "User ID Required!",
+        	card: "Card No Required!",
+        	date: "Date Required!",
+        	total: "Total Amount Required!"
         },
         submitHandler: function () {
         	var fromData = JSON.stringify({

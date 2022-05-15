@@ -119,9 +119,10 @@ public class paymentController {
 	@POST
 	@Path("/get")
 	@Produces(MediaType.TEXT_HTML)
-	public String viewOne(String app_text) throws NumberFormatException, JSONException{
+	public String viewOne(String app_text)
+	{
 		JsonObject app = new JsonParser().parse(app_text).getAsJsonObject();
-		PaymentService paymentService =new PaymentService();
+		
 		return paymentService.getOnePayment(Integer.parseInt(app.get("id").getAsString())).toString();
-	}	
+	}
 }

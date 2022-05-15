@@ -25,35 +25,35 @@
 	                    
 	                   
 <div id="hideDiv" style="display: none">
-    <form id="addPayment">
+    <form id="userRegister">
     <input type="hidden" id="edit_id" name="edit_id">
-	                            <div>
-	                                <label>User ID</label>
-	                                <div>
-	                                    <input type="text" id="user_id" class="form-control" name="user_id">
-	                                </div>
-	                            </div></br>
+	     <div>
+	    	<label>User ID</label>
+		     <div>
+		       	<input type="text" id="user_id" class="form-control" name="user_id">
+		     </div>
+	     </div></br>
           
-	                            <div>
-	                                <label>Card No</label>
-	                                <div>
-	                                    <input type="text" id="card" class="form-control" name="card">
-	                                </div>
-	                            </div></br>
+	       <div>
+	        <label>Card No</label>
+	        <div>
+	            <input type="text" id="card_number" class="form-control" name="card_number">
+	       </div>
+	      </div></br>
+
+	      <div>
+	       <label>Payment Date</label>
+	       <div>
+	           <input type="date" id="date" class="form-control" name="date">
+	       </div>
+	       </div></br>          
           
-	                            <div>
-	                                <label>Payment Date</label>
-	                                <div>
-	                                    <input type="date" id="date" class="form-control" name="date">
-	                                </div>
-	                            </div></br>
-          
-	                            <div>
-	                                <label>Total Amount</label>
-	                                <div>
-	                                    <input type="number" id="total" class="form-control" name="total">
-	                                </div>
-	                            </div></br>
+	       <div>
+	        <label>Total Amount</label>
+	        <div>
+	            <input type="number" id="total" class="form-control" name="total">
+	        </div>
+	        </div></br>
           
           <div>
               <button type="submit" class="btn btn-success">
@@ -62,7 +62,11 @@
           </div>
   	</form>
 </div> 
-	                    
+	 <div>
+        <a href="insert.jsp" class="btn btn-success">
+	    Add New Payment
+	    </a>
+     </div>                   
 </div>
 	
 </body>
@@ -75,7 +79,7 @@
         	$.ajax({
                 type: "DELETE",
                 url: "app/payment",
-                data: JSON.stringify({ 'user_id' : user_id}),
+                data: JSON.stringify({ 'id' : id}),
                 dataType: "json",
     			contentType : 'application/json',
                 success: function(data){
@@ -95,23 +99,23 @@
 
     $(document).ready(function () {
 
-        $("#addPayment").validate({
+        $("#userRegister").validate({
         	rules: {
             	user_id: "required",
-            	card: "required",
+            	card_number: "required",
             	date: "required",
             	total: "required"
             },
             messages: {
             	user_id: "User ID Required!",
-            	card: "Card No Required!",
+            	card_number: "Card No Required!",
             	date: "Date Required!",
             	total: "Total Amount Required!"
             },
             submitHandler: function () {
             	var fromData = JSON.stringify({
-            		"user_id" : $('#edit_id').val(),
-                    "card" : $('#card_number').val(),
+                    "user_id" : $('#user_id').val(),
+                    "card_number" : $('#card_number').val(),
                     "date" : $('#date').val(),
                     "total" : $('#total').val()
                 });
@@ -128,7 +132,7 @@
                     	if(data['success']=="success"){
                     		alert("Edit Successfull!");
                         	document.getElementById("hideDiv").style.display = "none";
-                            $("#addPayment")[0].reset();
+                            $("#userRegister")[0].reset();
     						reload();
     					}else{
     						alert("Unsuccessful!");
@@ -141,7 +145,7 @@
             }
         });
 
-        $("#addPayment").submit(function(e) {
+        $("#userRegister").submit(function(e) {
             e.preventDefault();
         });
 
@@ -167,21 +171,19 @@
     	$.ajax({
             type: "POST",
             url: "app/payment/get",
-            data: JSON.stringify({ 'user_id' : user_id}),
+            data: JSON.stringify({ 'id' : id}),
             dataType: "json",
 			contentType : 'application/json',
             success: function(data){
             	console.log(data),
-                $('#edit_id').val(data['user_id']),
-                $('#card_number').val(data['card']),
+                $('#user_id').val(data['user_id']),
+                $('#card_number').val(data['card_number']),
                 $('#date').val(data['date']),
                 $('#total').val(data['total'])
             },
             failure: function(errMsg) {
                 alert('Error');
             }
-        }); 
+        });   
     }
-    
-    
 </script>

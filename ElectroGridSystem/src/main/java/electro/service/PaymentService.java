@@ -6,8 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 
 import electro.db.DatabaseConnection;
 import electro.model.*;
@@ -82,7 +81,7 @@ public class PaymentService {
 						+ "<td >"+resultSet.getString(3)+"</td>"
 						+ "<td >"+resultSet.getString(4)+"</td>"
 						+ "<td >"+resultSet.getString(5)+"</td>"
-						+ "<td >"+button+"</td>"
+						+ "<td >"+button+"</td>"    
 					  + "</tr>";
 				
 			}
@@ -120,7 +119,7 @@ public class PaymentService {
 		
 		}catch (ClassNotFoundException | SQLException  e) {
 			System.out.println(e.getMessage());
-			this.setSuccess("success");
+			this.setSuccess("unsuccess");
 		}
 	}
 
@@ -139,11 +138,11 @@ public class PaymentService {
 		
 		}catch (ClassNotFoundException | SQLException  e) {
 			System.out.println(e.getMessage());
-			this.setSuccess("success");
+			this.setSuccess("unsuccess");
 		}
 	}
 	
-	public JSONObject getOnePayment(int id) throws JSONException {
+	public JSONObject getOnePayment(int id) {
 		Connection connection;
 		PreparedStatement preparedStatement;
 		JSONObject json = new JSONObject();
@@ -157,10 +156,10 @@ public class PaymentService {
 
 			while(rs.next())
 			{
-				json.put("user_id", rs.getInt(1));
-				json.put("card", rs.getString(2));
-				json.put("date", rs.getString(3));
-				json.put("total", rs.getDouble(4));
+				json.put("user_id", rs.getInt(2));
+				json.put("card_number", rs.getInt(3));
+				json.put("date", rs.getString(4));
+				json.put("total", rs.getDouble(5));
 			}
 			
 		}catch (ClassNotFoundException | SQLException  e) {
